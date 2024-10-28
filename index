@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entraînement à la Méthode de Trachtenberg</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fffcf0; /* arrière-plan jaune pâle */
+        }
+        .container {
+            text-align: center;
+            width: 320px;
+            padding: 20px;
+            border: 2px solid #f7d06b;
+            border-radius: 8px;
+            background-color: #fff8e1;
+        }
+        h2 {
+            color: #f5a623;
+        }
+        label {
+            font-weight: bold;
+            color: #9c6e21;
+        }
+        input {
+            width: 80%;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 4px;
+            border: 1px solid #e2a74a;
+        }
+        button {
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: none;
+            font-weight: bold;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .calculate-btn {
+            background-color: #f5a623;
+            color: white;
+        }
+        .random-btn {
+            background-color: #ffe1a8;
+            color: #9c6e21;
+        }
+        .result {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #9c6e21;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Méthode de Trachtenberg</h2>
+    <label for="nombre">Entrez un nombre :</label>
+    <input type="number" id="nombre" placeholder="Ex : 123" />
+
+    <label for="multiplicateur">Multiplier par :</label>
+    <input type="number" id="multiplicateur" placeholder="Ex : 12" />
+    <button class="random-btn" onclick="genererAleatoire()">Nombre aléatoire</button>
+
+    <label for="chiffres">Nombre de chiffres :</label>
+    <input type="number" id="chiffres" placeholder="Laisser vide pour aléatoire" />
+
+    <button class="calculate-btn" onclick="calculer()">Calculer</button>
+
+    <div class="result" id="resultat">Résultat : </div>
+</div>
+
+<script>
+    function calculer() {
+        // Récupère les valeurs des champs
+        const nombre = parseInt(document.getElementById("nombre").value);
+        const multiplicateur = parseInt(document.getElementById("multiplicateur").value);
+
+        // Vérifie si les valeurs sont des nombres valides
+        if (isNaN(nombre) || isNaN(multiplicateur)) {
+            alert("Veuillez entrer des nombres valides.");
+            return;
+        }
+
+        // Calcule le produit en utilisant une méthode simple
+        const resultatAttendu = methodeTrachtenberg(nombre, multiplicateur);
+        document.getElementById("resultat").innerText = "Résultat : " + resultatAttendu;
+    }
+
+    function methodeTrachtenberg(nombre, multiplicateur) {
+        // Simulation de la méthode Trachtenberg pour la multiplication
+        let resultat = 0;
+        const chiffres = String(nombre).split('').reverse();
+
+        chiffres.forEach((chiffre, i) => {
+            const produitPartiel = parseInt(chiffre) * multiplicateur;
+            resultat += produitPartiel * Math.pow(10, i);
+        });
+
+        return resultat;
+    }
+
+    function genererAleatoire() {
+        // Récupère le nombre de chiffres souhaité
+        const nombreDeChiffres = parseInt(document.getElementById("chiffres").value);
+
+        // Si aucun chiffre n'est spécifié, génère un nombre aléatoire entre 1 et 6 chiffres
+        const maxChiffres = isNaN(nombreDeChiffres) ? Math.floor(Math.random() * 6) + 1 : nombreDeChiffres;
+
+        // Génère le nombre aléatoire avec le nombre de chiffres défini
+        const nombreAleatoire = Math.floor(Math.random() * Math.pow(10, maxChiffres - 1) * 9) + Math.pow(10, maxChiffres - 1);
+
+        document.getElementById("nombre").value = nombreAleatoire;
+    }
+</script>
+
+</body>
+</html>
